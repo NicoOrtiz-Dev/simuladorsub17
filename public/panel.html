@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"/><title>Panel Sub-17</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <h2>Panel de Control Sub-17</h2>
+  <input id="clave" type="password" placeholder="Clave"/><br/>
+  <button onclick="enviar('gol','Nacional')">⚽ Gol Nacional</button>
+  <button onclick="enviar('gol','América')">⚽ Gol América</button><br/>
+  <button onclick="enviar('evento','Cambio Nacional')">🔁 Cambio Nacional</button>
+  <button onclick="enviar('evento','Cambio América')">🔁 Cambio América</button><br/>
+  <button onclick="enviar('evento','Tarjeta Roja Nacional')">🟥 Roja Nacional</button>
+  <button onclick="enviar('evento','Tarjeta Amarilla América')">🟨 Amarilla América</button><br/>
+  <button onclick="enviar('evento','Segundo Tiempo')">▶️ 2do Tiempo</button>
+  <button onclick="enviar('evento','Final')">🏁 Final</button>
+
+  <script>
+    async function enviar(tipo, detalle) {
+      const clave = document.getElementById("clave").value;
+      const res = await fetch("/api/sendEvent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ clave, tipo, detalle })
+      });
+      const j = await res.json();
+      alert(j.error || "¡Evento enviado!");
+    }
+  </script>
+</body>
+</html>
