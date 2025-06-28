@@ -8,8 +8,19 @@ const pusher = new Pusher({
   useTLS: true,
 });
 
-export async function POST(req) {
-  const body = await req.json();
-  await pusher.trigger("partido", "evento", body);
-  return new Response("Enviado", { status: 200 });
+export async function POST(request) {
+  try {
+    const body = await request.json();
+
+    await pusher.trigger("partido", "evento", {
+      tipo: body.tipo,
+      detalle: body.detalle,
+      jugador: body.jugador || "Desconocido"
+    });
+
+    return new Response("Evento enviado", { status: 200 });
+  } catch (error) {
+    console.error("Error en sendEvent.js:", error);
+    return new Response("Error interno", { status: 500 });
+  }
 }
