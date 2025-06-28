@@ -23,19 +23,27 @@ function mostrar(texto, tipo){
   document.getElementById("notificaciones").prepend(div);
 }
 
-channel.bind("evento", ({ tipo, detalle }) => {
+channel.bind("evento", (data) => {
+  const { tipo, detalle, jugador } = data;
+
   if (tipo === "gol") {
     if (detalle === "Nacional") {
       golesN++;
     } else if (detalle === "América") {
       golesA++;
     }
+
     document.getElementById("marcador").innerText = `${golesN} - ${golesA}`;
-    mostrar(`⚽ ¡Gol de ${detalle}!`, "gol");
+
+    mostrar(
+      `⚽ ¡Gol de ${detalle}!<br/>👟 Lo hizo: ${jugador || "Desconocido"}`,
+      "gol"
+    );
   } else {
     mostrar(`🔔 ${detalle}`, "evento");
   }
 });
+
 
 let s = 0;
 setInterval(() => {

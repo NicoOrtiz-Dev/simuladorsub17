@@ -6,8 +6,10 @@
 <body>
   <h2>Panel de Control Sub-17</h2>
   <input id="clave" type="password" placeholder="Clave"/><br/>
-  <button onclick="enviar('gol','Nacional')">⚽ Gol Nacional</button>
-  <button onclick="enviar('gol','América')">⚽ Gol América</button><br/>
+  <input type="text" id="jugador" placeholder="Nombre del jugador" />
+<br/><br/>
+<button onclick="enviarGol('Nacional')">⚽ Gol Nacional</button>
+<button onclick="enviarGol('América')">⚽ Gol América</button>
   <button onclick="enviar('evento','Cambio Nacional')">🔁 Cambio Nacional</button>
   <button onclick="enviar('evento','Cambio América')">🔁 Cambio América</button><br/>
   <button onclick="enviar('evento','Tarjeta Roja Nacional')">🟥 Roja Nacional</button>
@@ -26,6 +28,17 @@
       const j = await res.json();
       alert(j.error || "¡Evento enviado!");
     }
+function enviarGol(equipo) {
+  const jugador = document.getElementById("jugador").value || "Desconocido";
+  fetch("/api/sendEvent", {
+    method: "POST",
+    body: JSON.stringify({
+      tipo: "gol",
+      detalle: equipo,
+      jugador: jugador
+    })
+  });
+}
   </script>
 </body>
 </html>
