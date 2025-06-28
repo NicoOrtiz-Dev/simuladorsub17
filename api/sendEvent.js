@@ -5,14 +5,11 @@ const pusher = new Pusher({
   key: process.env.PUSHER_KEY,
   secret: process.env.PUSHER_SECRET,
   cluster: process.env.PUSHER_CLUSTER,
-  useTLS: true
+  useTLS: true,
 });
 
-export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).end();
-  const { clave, tipo, detalle } = req.body;
-  if (clave !== "Ortiz245") return res.status(403).json({ error: "Clave incorrecta" });
-
-  await pusher.trigger("partido", "evento", { tipo, detalle });
-  res.status(200).json({ success: true });
+export async function POST(req) {
+  const body = await req.json();
+  await pusher.trigger("partido", "evento", body);
+  return new Response("Enviado", { status: 200 });
 }

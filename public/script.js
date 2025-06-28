@@ -1,6 +1,6 @@
 
 
-const pusher = new Pusher("TU_PUSHER_KEY", { cluster: "TU_CLUSTER" });
+const pusher = new Pusher("32360ed1be476bc06d0e", { cluster: "mt1" });
 const channel = pusher.subscribe("partido");
 let golesN = 0, golesA = 0;
 
